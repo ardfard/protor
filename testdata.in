@@ -1,0 +1,9 @@
+[{	
+	"name": 	"my_metrics", 
+	"kind": 	"h", 
+	"value":	0.20, 
+	"labels": 	{ 
+				"labelA" : "wow", 
+				"labelB" : "wew" }, 
+	"additional": [ 1, 2, 3, 4 ]
+}]
