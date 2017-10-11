@@ -25,13 +25,9 @@ func TestProtorSuite(t *testing.T) {
 }
 
 func (ps *ProtorSuite) SetupSuite() {
-	ka := "tcp"
-	pa := "localhost:3000"
-	po := pt.ProtorOption{
-		Kind:    ka,
-		Address: pa,
-	}
-	ps.protor = pt.NewProtor(po)
+	ps.protor = pt.DefaultOption()
+	ps.protor.Option.Kind = "tcp"
+	ps.protor.Option.Address = "localhost:3000"
 }
 
 func (ps *ProtorSuite) TestMetric() {

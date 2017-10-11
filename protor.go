@@ -15,8 +15,8 @@ import (
 )
 
 type Protor struct {
-	PO ProtorOption
-	cb *circuit.Breaker
+	Option         ProtorOption
+	CircuitBreaker *circuit.Breaker
 }
 
 type ProtorOption struct {
@@ -24,12 +24,25 @@ type ProtorOption struct {
 	Address string
 }
 
-func NewProtor(PO ProtorOption) *Protor {
-	cb := circuit.NewRateBreaker(0.1, 100)
+func NewProtor(Option ProtorOption) *Protor {
+	CircuitBreaker := circuit.NewRateBreaker(0.1, 100)
 	return &Protor{
-		PO: PO,
-		cb: cb,
+		Option:         Option,
+		CircuitBreaker: CircuitBreaker,
 	}
+}
+
+func DefaultOption() *Protor {
+	pOption := ProtorOption{
+		Kind:    "udp",
+		Address: "8080",
+	}
+
+	return &Protor{
+		Option:         pOption,
+		CircuitBreaker: circuit.NewRateBreaker(0.1, 100),
+	}
+
 }
 
 type MetricData struct {
@@ -63,13 +76,13 @@ func Metric(ctx context.Context, m *MetricData) *ProtorData {
 }
 
 func (p *Protor) Work(ctx context.Context, sample *ProtorData) error {
-	if p.cb.Ready() {
-		conn, err := net.Dial(p.PO.Kind, p.PO.Address)
+	if p.CircuitBreaker.Ready() {
+		conn, err := net.Dial(p.Option.Kind, p.Option.Address)
 		for err != nil {
-			p.cb.Fail()
+			p.CircuitBreaker.Fail()
 			return err
 		}
-		p.cb.Success()
+		p.CircuitBreaker.Success()
 		defer conn.Close()
 		if p.Valid(ctx, sample) {
 			fmt.Fprintf(conn, p.Encode(ctx, sample))
