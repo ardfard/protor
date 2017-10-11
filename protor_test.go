@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	pt "github.com/bukalapak/attache/protor"
+	pt "github.com/bukalapak/protor"
 )
 
 type ProtorSuite struct {
