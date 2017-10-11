@@ -32,7 +32,7 @@ func NewProtor(Option ProtorOption) *Protor {
 	}
 }
 
-func DefaultOption() *Protor {
+func DefaultProtor() *Protor {
 	pOption := ProtorOption{
 		Kind:    "udp",
 		Address: "8080",

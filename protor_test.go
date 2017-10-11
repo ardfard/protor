@@ -25,7 +25,7 @@ func TestProtorSuite(t *testing.T) {
 }
 
 func (ps *ProtorSuite) SetupSuite() {
-	ps.protor = pt.DefaultOption()
+	ps.protor = pt.DefaultProtor()
 	ps.protor.Option.Kind = "tcp"
 	ps.protor.Option.Address = "localhost:3000"
 }
