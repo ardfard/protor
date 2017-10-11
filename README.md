@@ -1,7 +1,7 @@
 # Protor
 library for forwarding data to prometheus aggregator for internal monitoring
 
-#Interface input and output
+## Interface input and output
 
 ````
 type ProtorInterface interface {
